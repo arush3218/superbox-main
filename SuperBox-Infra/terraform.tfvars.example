@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars and fill in your values
+# DO NOT commit terraform.tfvars to git (it's in .gitignore)
+
+aws_access_key = "AWS_ACCESS_KEY_ID"
+aws_secret_key = "AWS_SECRET_ACCESS_KEY"
+aws_region     = "ap-south-1"
+project_name   = "superbox"
+
+# Optional overrides (uncomment to customize)
+# lambda_runtime     = "python3.11"
+# lambda_memory_size = 512
+# lambda_timeout     = 60
+# log_retention_days = 7
