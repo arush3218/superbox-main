@@ -1,0 +1,266 @@
+"use client";
+
+import { motion } from "framer-motion";
+import {
+  Activity,
+  Award,
+  Calendar,
+  Clock,
+  Code,
+  Download,
+  ExternalLink,
+  Home,
+  Info,
+  Scale,
+  TrendingUp,
+} from "lucide-react";
+
+interface ServerDetailsCardProps {
+  server: {
+    qualityScore?: number;
+    monthlyToolCalls?: number;
+    totalPulls?: number;
+    uptime?: number;
+    latency?: {
+      p95: number;
+    };
+    license?: string;
+    isLocal?: boolean;
+    publishedDate?: string;
+    lastDeployed?: string;
+    pricing: {
+      currency: string;
+      amount: number;
+    };
+    sourceCode?: {
+      platform: string;
+      url: string;
+      repo: string;
+    };
+    homepage?: {
+      url: string;
+      domain: string;
+    };
+  };
+}
+
+export default function ServerDetailsCard({ server }: ServerDetailsCardProps) {
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return `${(num / 1000000).toFixed(2)}M`;
+    }
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(0)}k`;
+    }
+    return num.toString();
+  };
+
+  const getQualityColor = (score: number) => {
+    if (score >= 80) return "text-green-400";
+    if (score >= 60) return "text-yellow-400";
+    return "text-orange-400";
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="border border-white/10 rounded-2xl bg-white/[0.02] p-6"
+    >
+      <div className="flex items-center gap-2 pb-4 mb-6 border-b border-white/5">
+        <Info className="w-5 h-5 text-[var(--brand-red)]" />
+        <h2 className="text-lg font-bold text-white/95">Details</h2>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        {server.qualityScore !== undefined && (
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-3">
+              <Award className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Quality Score
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div
+                  className={`h-full transition-all duration-500 ${
+                    server.qualityScore >= 80
+                      ? "bg-green-400"
+                      : server.qualityScore >= 60
+                        ? "bg-yellow-400"
+                        : "bg-orange-400"
+                  }`}
+                  style={{ width: `${server.qualityScore}%` }}
+                />
+              </div>
+              <span
+                className={`text-xl font-bold ${getQualityColor(server.qualityScore)}`}
+              >
+                {server.qualityScore}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {server.monthlyToolCalls !== undefined && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <TrendingUp className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Monthly Calls
+              </p>
+            </div>
+            <div className="text-lg font-bold text-white/95">
+              {formatNumber(server.monthlyToolCalls)}
+            </div>
+          </div>
+        )}
+
+        {server.totalPulls !== undefined && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Download className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Total Pulls
+              </p>
+            </div>
+            <div className="text-lg font-bold text-white/95">
+              {formatNumber(server.totalPulls)}
+            </div>
+          </div>
+        )}
+
+        {server.uptime !== undefined && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Activity className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Uptime
+              </p>
+            </div>
+            <div className="text-lg font-bold text-green-400">
+              {server.uptime}%
+            </div>
+          </div>
+        )}
+
+        {server.latency && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Latency (P95)
+              </p>
+            </div>
+            <div className="text-base font-semibold text-white/90">
+              {server.latency.p95}ms
+            </div>
+          </div>
+        )}
+
+        {server.license && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Scale className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                License
+              </p>
+            </div>
+            <div className="text-base font-semibold text-white/90">
+              {server.license}
+            </div>
+          </div>
+        )}
+
+        {server.publishedDate && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Calendar className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Published
+              </p>
+            </div>
+            <div className="text-base font-semibold text-white/90">
+              {server.publishedDate}
+            </div>
+          </div>
+        )}
+
+        {server.lastDeployed && (
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Last Updated
+              </p>
+            </div>
+            <div className="text-base font-semibold text-white/90">
+              {server.lastDeployed}
+            </div>
+          </div>
+        )}
+
+        <div className="col-span-2 pt-4 border-t border-white/5">
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+              Pricing
+            </p>
+            <div>
+              {server.pricing && server.pricing.amount > 0 ? (
+                <span className="px-3 py-1.5 bg-[var(--brand-red)]/15 text-[var(--brand-red)] text-sm font-bold rounded-lg">
+                  ${server.pricing.amount}/mo
+                </span>
+              ) : (
+                <span className="px-3 py-1.5 bg-green-500/15 text-green-400 text-sm font-bold rounded-lg">
+                  FREE
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {server.sourceCode && (
+          <div className="col-span-2 pt-4 border-t border-white/5">
+            <div className="flex items-center gap-2 mb-3">
+              <Code className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Source Code
+              </p>
+            </div>
+            <a
+              href={server.sourceCode.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-[var(--brand-red)] hover:text-red-400 transition-colors group"
+            >
+              <span className="truncate">{server.sourceCode.repo}</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-70 flex-shrink-0 group-hover:opacity-100" />
+            </a>
+          </div>
+        )}
+
+        {server.homepage && (
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-3">
+              <Home className="w-4 h-4 text-gray-400/70" />
+              <p className="text-xs text-gray-400/70 uppercase tracking-wider">
+                Homepage
+              </p>
+            </div>
+            <a
+              href={server.homepage.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm font-medium text-[var(--brand-red)] hover:text-red-400 transition-colors group"
+            >
+              <span className="truncate">{server.homepage.domain}</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-70 flex-shrink-0 group-hover:opacity-100" />
+            </a>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}

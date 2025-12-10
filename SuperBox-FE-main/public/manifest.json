@@ -1,0 +1,27 @@
+{
+  "name": "SuperBox - Open Marketplace for MCP Servers",
+  "short_name": "SuperBox",
+  "description": "Discover, deploy, and test MCPs in isolated sandboxes.",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#ff5252",
+  "categories": ["mcp", "docker", "container", "sandbox", "tools"],
+  "icons": [
+    {
+      "src": "/icons/app/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/app/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

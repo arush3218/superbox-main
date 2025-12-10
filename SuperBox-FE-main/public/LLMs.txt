@@ -1,0 +1,50 @@
+# LLMs.txt for SuperBox (Frontend)
+
+
+## Website Overview
+
+SuperBox is a community-driven marketplace and playground for MCP (Model Context Protocol) servers. It lets users discover, evaluate, and connect MCP servers to their AI agents, with optional premium gating and security insights.
+This repository is the Next.js frontend for browsing servers, viewing details (including security reports), publishing listings, and testing interactions in a chat-style playground.
+
+
+## Site Structure
+
+- Home (`/`): Landing page with hero and curated carousels of free vs premium servers
+- Explore (`/explore`): Full searchable/browsable catalog of MCP servers
+- Server Detail (`/server/[id]`): Detailed view of a specific server, including tools, security reports, pricing, and connection instructions
+- My Servers (`/my-servers`): Publisher dashboard to submit a new server listing (modal) and view example listings
+- Playground (`/playground`): Chat-style demo UI intended to later interact with loaded MCP servers
+
+
+## Key Features
+
+- Server discovery with client-side search and categorization (free vs premium)
+- Detailed server pages with tool lists and optional security reports (SonarQube, GitGuardian, Bandit)
+- Copyable connection command and JSON config snippet for quick client setup
+- Premium paywall via Razorpay (order creation and verification handled by backend endpoints)
+- Publisher flow to submit new servers via a guided modal (POST to backend)
+- Smooth animations and polished UI (Framer Motion, Tailwind)
+- Next.js App Router with client components for fast interactions
+
+
+## Data & API
+
+- Base URL: `process.env.NEXT_PUBLIC_API_URL`
+- Endpoints used by the frontend:
+  - `GET /servers` → list servers (returns `{ total, servers: [...] }`)
+  - `POST /servers` → create/publish a new server
+  - `POST /payment/create-order` → create Razorpay order for premium servers
+  - `POST /payment/verify-payment` → verify Razorpay payment
+- Client-side mapping transforms API `ServerResponse` into UI-friendly server detail model for rendering.
+
+
+## Contact Information
+
+- GitHub: `https://github.com/areebahmeddd/superbox.ai`
+- Website: `https://superbox-fe.vercel.app`
+- Author/Org: Areeb Ahmed
+
+
+## License
+
+MIT License
